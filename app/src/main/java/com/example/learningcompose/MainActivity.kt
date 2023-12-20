@@ -5,13 +5,14 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -23,8 +24,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             LearningcomposeTheme {
                 MyApp(
-                    modifier = Modifier.fillMaxSize(),
-                    listOf(
+                    names = listOf(
                         "최베르",
                         "최성훈",
                         "베르최",
@@ -58,21 +58,26 @@ private fun MyApp(modifier: Modifier = Modifier, names: List<String> = listOf())
 
 @Composable
 fun Greeting(name: String) {
+    val expended = remember { mutableStateOf(false) }
+    val extraPadding = if (expended.value) 48.dp else 0.dp
+
     Surface(
         color = MaterialTheme.colorScheme.primary,
         modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp),
     ) {
-        // 행으로
         Row(modifier = Modifier.padding(24.dp)) {
-            // name 과 Hello 를 새로로 배치
-            Column(modifier = Modifier.weight(1f)) {
-                Text(text = "Hello")
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(bottom = extraPadding),
+            ) {
+                Text(text = "Hello,  ")
                 Text(text = "$name!")
             }
             ElevatedButton(
-                onClick = { /*TODO*/ },
+                onClick = { expended.value = !expended.value },
             ) {
-                Text("Click!")
+                Text(if (expended.value) "접기!" else "펼치기")
             }
         }
     }
