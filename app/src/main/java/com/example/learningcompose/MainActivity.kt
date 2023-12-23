@@ -29,32 +29,27 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             LearningcomposeTheme {
-                MyApp(
-                    names = listOf(
-                        "최베르",
-                        "최성훈",
-                        "베르최",
-                        "최베르",
-                        "최성훈",
-                        "베르최",
-                        "최베르",
-                        "최성훈",
-                        "베르최",
-                        "최베르",
-                        "최성훈",
-                        "베르최",
-                        "최베르",
-                        "최성훈",
-                        "베르최",
-                    ),
-                )
+                MyApp()
             }
         }
     }
 }
 
 @Composable
-private fun MyApp(modifier: Modifier = Modifier, names: List<String> = listOf()) {
+private fun MyApp(modifier: Modifier = Modifier) {
+    var shouldShowOnboarding by remember { mutableStateOf(true) }
+
+    Surface(modifier) {
+        if (shouldShowOnboarding) {
+            OnboardingScreen(onContinueClicked = { shouldShowOnboarding = false })
+        } else {
+            Greetings()
+        }
+    }
+}
+
+@Composable
+private fun Greetings(modifier: Modifier = Modifier, names: List<String> = listOf()) {
     Column(modifier = modifier.padding(vertical = 4.dp)) {
         for (name in names) {
             Greeting(name = (name))
@@ -90,9 +85,7 @@ fun Greeting(name: String) {
 }
 
 @Composable
-fun OnboardingScreen(modifier: Modifier = Modifier) {
-    var shouldShowOnboarding by remember { mutableStateOf(true) }
-
+fun OnboardingScreen(onContinueClicked: () -> Unit, modifier: Modifier = Modifier) {
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -101,7 +94,7 @@ fun OnboardingScreen(modifier: Modifier = Modifier) {
         Text(text = "환영합니다.")
         Button(
             modifier = Modifier.padding(24.dp),
-            onClick = { shouldShowOnboarding = false },
+            onClick = onContinueClicked,
         ) {
             Text("계속하기")
         }
@@ -110,9 +103,17 @@ fun OnboardingScreen(modifier: Modifier = Modifier) {
 
 @Preview(showBackground = true, widthDp = 320)
 @Composable
-fun DefaultPreview() {
+fun MyAppPreview() {
     LearningcomposeTheme {
-        MyApp(Modifier, listOf("최베르", "최성훈", "베르최", "최베르", "최성훈", "베르최", "최베르", "최성훈", "베르최"))
+        MyApp(Modifier.fillMaxSize())
+    }
+}
+
+@Preview(showBackground = true, widthDp = 320)
+@Composable
+fun GreetingsPreview() {
+    LearningcomposeTheme {
+        Greetings(names = listOf("최베르", "최성훈", "베르최", "최베르", "최성훈", "베르최", "최베르", "최성훈", "베르최"))
     }
 }
 
@@ -120,6 +121,6 @@ fun DefaultPreview() {
 @Composable
 fun OnboardingScreenPreview() {
     LearningcomposeTheme {
-        OnboardingScreen()
+        OnboardingScreen(onContinueClicked = {})
     }
 }
