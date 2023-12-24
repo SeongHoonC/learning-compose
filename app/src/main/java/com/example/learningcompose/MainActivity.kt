@@ -3,6 +3,7 @@ package com.example.learningcompose
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -62,8 +63,8 @@ private fun Greetings(modifier: Modifier = Modifier, names: List<String> = listO
 
 @Composable
 fun Greeting(name: String) {
-    val expended = remember { mutableStateOf(false) }
-    val extraPadding = if (expended.value) 48.dp else 0.dp
+    var expended by remember { mutableStateOf(false) }
+    val extraPadding by animateDpAsState(if (expended) 48.dp else 0.dp, label = "")
 
     Surface(
         color = MaterialTheme.colorScheme.primary,
@@ -79,9 +80,9 @@ fun Greeting(name: String) {
                 Text(text = "$name!")
             }
             ElevatedButton(
-                onClick = { expended.value = !expended.value },
+                onClick = { expended = !expended },
             ) {
-                Text(if (expended.value) "접기!" else "펼치기")
+                Text(if (expended) "접기!" else "펼치기")
             }
         }
     }
