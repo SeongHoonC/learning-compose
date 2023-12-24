@@ -3,4 +3,7 @@
     <string name="hello">"Hello,  "</string>
     <string name="show_less">접기!</string>
     <string name="show_more">펼치기</string>
+    <string name="welcome">환영합니다.</string>
+    <string name="continue_continue">계속하기</string>
+    <string name="hello_me">안녕하세요 최성훈입니다.\n</string>
 </resources>

@@ -98,6 +98,11 @@ fun Greeting(name: String) {
                         fontWeight = FontWeight.ExtraBold,
                     ),
                 )
+                if (expended) {
+                    Text(
+                        text = (stringResource(R.string.hello_me)).repeat(4),
+                    )
+                }
             }
             IconButton(
                 onClick = { expended = !expended },
@@ -122,12 +127,12 @@ fun OnboardingScreen(onContinueClicked: () -> Unit, modifier: Modifier = Modifie
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text(text = "환영합니다.")
+        Text(text = stringResource(R.string.welcome))
         Button(
             modifier = Modifier.padding(24.dp),
             onClick = onContinueClicked,
         ) {
-            Text("계속하기")
+            Text(stringResource(R.string.continue_continue))
         }
     }
 }
